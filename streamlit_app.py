@@ -16,7 +16,7 @@ from pathlib import Path
 st.set_page_config(
     page_title='Planejamento Orçamentário - GCINFRA',
     layout='wide',
-    page_icon='💲🏗️',
+    page_icon='🏗️',
     initial_sidebar_state='auto'
 )
 #testing authentication
