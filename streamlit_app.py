@@ -88,12 +88,6 @@ if authentication_status:
     
     unidade = st.sidebar.multiselect("UNIDADE", desired_unidade, default=desired_unidade[0])
     
-    # Define the list of "FONTE DE RECURSO" values and add "Todos" as an option
-    desired_fonte = df["FONTE DE RECURSO"].unique().tolist()
-    desired_fonte.insert(0, "Todos")
-    
-    fonte = st.sidebar.multiselect("FONTE DE RECURSO", desired_fonte, default=desired_fonte[0])
-    
     # Define the list of "CLASSIFICAÇÃO" values and add "Todos" as an option
     desired_classificacao = df["CLASSIFICAÇÃO"].unique().tolist()
     desired_classificacao.insert(0, "Todos")
@@ -101,34 +95,12 @@ if authentication_status:
     # Create a filter for selecting "CLASSIFICAÇÃO"
     classificacao = st.sidebar.multiselect("CLASSIFICAÇÃO", desired_classificacao, default=desired_classificacao[0])
     
-    # Define the list of "JUSTIFICATIVA" values and add "Todos" as an option
-    desired_justificativa = df["JUSTIFICATIVA"].unique().tolist()
-    desired_justificativa.insert(0, "Todos")
+    # Define the list of "MÊS" values and add "Todos" as an option
+    desired_mes = df["MÊS"].unique().tolist()
+    desired_mes.insert(0, "Todos")
     
-    # Create a filter for selecting "JUSTIFICATIVA"
-    justificativa = st.sidebar.multiselect("JUSTIFICATIVA", desired_justificativa, default=desired_justificativa[0])
-    
-    # Define the list of "NÍVEL DE PRIORIDADE" values and add "Todos" as an option
-    desired_prioridade = df["NÍVEL DE PRIORIDADE"].unique().tolist()
-    desired_prioridade.insert(0, "Todos")
-    
-    prioridade = st.sidebar.multiselect("NÍVEL DE PRIORIDADE", desired_prioridade, default=desired_prioridade[0])
-    
-    
-    # Define the list of "FAIXA DE VALOR" values and add "Todos" as an option
-    desired_faixa = df["FAIXA DE VALOR"].unique().tolist()
-    desired_faixa.insert(0, "Todos")
-    
-    faixa = st.sidebar.multiselect("FAIXA DE VALOR", desired_faixa, default=desired_faixa[0])
-    
-    
-    
-    
-    # Define the list of "SOLICITAÇÃO REALIZADA" values and add "Todos" as an option
-    desired_solicitacao = df["SOLICITAÇÃO REALIZADA"].unique().tolist()
-    desired_solicitacao.insert(0, "Todos")
-    
-    solicitacao = st.sidebar.multiselect("SOLICITAÇÃO REALIZADA", desired_solicitacao, default=desired_solicitacao[0])
+    # Create a filter for selecting "MÊS"
+    mes = st.sidebar.multiselect("MÊS", desired_mes, default=desired_mes[0])
     
     # Filter the DataFrame based on user selections
     filtered_df = df.copy()
@@ -136,27 +108,15 @@ if authentication_status:
     if unidade and unidade != ["Todos"]:
         filtered_df = filtered_df[filtered_df["UNIDADE"].isin(unidade)]
     
-    if fonte and fonte != ["Todos"]:
-        filtered_df = filtered_df[filtered_df["FONTE DE RECURSO"].isin(fonte)]
-    
     if classificacao and classificacao != ["Todos"]:
         filtered_df = filtered_df[filtered_df["CLASSIFICAÇÃO"].isin(classificacao)]
     
-    if justificativa and justificativa != ["Todos"]:
-        filtered_df = filtered_df[filtered_df["JUSTIFICATIVA"].isin(justificativa)]
-    
-    if prioridade and prioridade != ["Todos"]:
-        filtered_df = filtered_df[filtered_df["NÍVEL DE PRIORIDADE"].isin(prioridade)]
-    
-    if faixa and faixa != ["Todos"]:
-        filtered_df = filtered_df[filtered_df["FAIXA DE VALOR"].isin(faixa)]
-    
-    
-    if solicitacao and solicitacao != ["Todos"]:
-        filtered_df = filtered_df[filtered_df["SOLICITAÇÃO REALIZADA"].isin(solicitacao)]
+    if mes and mes != ["Todos"]:
+        filtered_df = filtered_df[filtered_df["MÊS"].isin(mes)]
     
     st.markdown("<br>", unsafe_allow_html=True)
     authenticator.logout("Logout", "sidebar")
+
     
     
     col1, col2, col3 = st.columns(3)
