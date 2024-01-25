@@ -156,4 +156,4 @@ if authentication_status:
     st.write("Dados Selecionados2:")
     st.dataframe(df1)
 
-    st.dataframe(df1)
+
