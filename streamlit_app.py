@@ -133,6 +133,30 @@ if authentication_status:
     
    
     
+
+    def main():
+        st.title("File Uploader Example")
+        
+        # Specify the allowed file types (extensions)
+        allowed_file_types = ["docx"]
+        
+        # File uploader widget
+        uploaded_file = st.file_uploader("Upload a DOCX file", type=allowed_file_types)
+        
+        # Check if a file was uploaded
+        if uploaded_file is not None:
+            st.success("File successfully uploaded!")
+            
+            # Process the uploaded file (you can define your processing logic here)
+            # For example, you can read the contents of a docx file using a library like python-docx
+            # content = process_docx_file(uploaded_file)
+            
+            # Display additional information if needed
+            # st.write("Processed Content:", content)
+    
+    if __name__ == "__main__":
+        main()
+
     
     
     
