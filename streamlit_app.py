@@ -142,7 +142,15 @@ if authentication_status:
     
     
     
-    
     # Display the filtered DataFrame
     st.write("Dados Selecionados:")
     st.dataframe(filtered_df)
+
+
+    url1 = "https://docs.google.com/spreadsheets/d/1lAc6NDecdyt6p_r6KtfYQAZtOUV7hCiMA_6gBZCL868/edit#gid=1812952933"
+    conn = st.connection("gsheets", type=GSheetsConnection)
+    df1 = conn.read(spreadsheet=url1, usecols=list(range(15)))
+
+    # Display the filtered DataFrame
+    st.write("Dados Selecionados:")
+    st.dataframe(df1)
