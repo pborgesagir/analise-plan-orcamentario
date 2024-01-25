@@ -131,7 +131,7 @@ if authentication_status:
     
     import docx2txt
     from gtts import gTTS
-    import os
+    
 
 
     def convert_docx_to_audio(docx_content, language='pt-br'):
