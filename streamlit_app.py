@@ -52,7 +52,7 @@ if authentication_status:
     url = "https://docs.google.com/spreadsheets/d/1Iob7n3vqgY4RqjRFCi_aH5Mo-65LAt8xaSr90gvDVhA/edit#gid=1728894484"
     
     # Centered title using HTML tags
-    st.markdown("<h1 style='text-align: center;'>GESTÃO DE RECURSO PARA INVESTIMENTO</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>PLANEJAMENTO E ACOMPANHAMENTO ORÇAMENTÁRIO - GCINFRA</h1>", unsafe_allow_html=True)
     
     
     # Adding a centered subtitle with larger font size using HTML
