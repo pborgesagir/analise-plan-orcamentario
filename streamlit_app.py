@@ -71,15 +71,7 @@ if authentication_status:
     conn = st.connection("gsheets", type=GSheetsConnection)
     df = conn.read(spreadsheet=url, usecols=list(range(13)))
     
-    def custom_sort(value):
-        if isinstance(value, (int, float)):
-            return value  # Return numbers as they are for sorting
-        else:
-            return -np.inf  # Assign -np.inf for non-numeric entries to place them at the end
     
-    # Apply custom sorting to the DataFrame
-    df['Sort_Values'] = df['VALOR TOTAL DO INVESTIMENTO'].apply(lambda x: custom_sort(x))
-    df = df.sort_values(by='Sort_Values', ascending=False).drop(columns='Sort_Values')
     
     
     # Define the list of "UNIDADE" values and add "Todos" as an option
