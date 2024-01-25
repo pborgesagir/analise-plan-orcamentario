@@ -155,5 +155,6 @@ if authentication_status:
     # Display the filtered DataFrame
     st.write("Dados Selecionados2:")
     st.dataframe(df1)
+
  
 
