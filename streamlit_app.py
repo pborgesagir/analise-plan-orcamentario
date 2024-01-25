@@ -33,7 +33,7 @@ with file_path.open("rb") as file:
 authenticator = stauth.Authenticate(names, usernames, hashed_passwords,
     "sales_dashboard", "abcdef", cookie_expiry_days=0.00694)
 
-name, authentication_status, username = authenticator.login("Login de acesso: Gestão de Recurso para Investimento - GCINFRA", "main")
+name, authentication_status, username = authenticator.login("Login de acesso: Planejamento Orçamentário - GCINFRA", "main")
 
 if authentication_status == False:
     st.error("Usuário/senha está incorreto")
