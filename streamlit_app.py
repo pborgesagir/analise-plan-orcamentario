@@ -129,49 +129,7 @@ if authentication_status:
     
     
     
-    import docx2txt
-    from gtts import gTTS
-    
-
-
-    def convert_docx_to_audio(docx_content, language='pt-br'):
-        # Create a gTTS object
-        tts = gTTS(text=docx_content, lang=language, slow=False)
-    
-        # Save the audio file
-        audio_output_path = "output_audio.mp3"
-        tts.save(audio_output_path)
-    
-        return audio_output_path
-    
-    def main():
-        st.title("DOCX to Audio Converter")
-    
-        # File uploader widget
-        uploaded_file = st.file_uploader("Upload a DOCX file", type=["docx"])
-    
-        # Language selection widget
-        language = st.selectbox("Select language", ["pt-br", "en"])
-    
-        if uploaded_file is not None:
-            # Read the content of the uploaded DOCX file
-            docx_content = docx2txt.process(uploaded_file)
-    
-            # Display the content to the user
-            st.subheader("Document Content:")
-            st.write(docx_content)
-    
-            # Convert DOCX content to audio
-            if st.button("Convert to Audio"):
-                audio_file_path = convert_docx_to_audio(docx_content, language)
-                st.success("Audio conversion completed!")
-    
-                # Provide a download link for the audio file
-                st.subheader("Download Audio:")
-                st.audio(audio_file_path, format="audio/mp3", key="audio")
-    
-    if __name__ == "__main__":
-        main()
+ 
     
    
     
