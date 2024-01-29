@@ -7,4 +7,3 @@ streamlit-authenticator==0.1.5
 numpy
 docx2txt
 streamlit_gsheets
-gspread
