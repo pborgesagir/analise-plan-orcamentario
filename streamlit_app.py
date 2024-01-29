@@ -69,7 +69,7 @@ if authentication_status:
     st.sidebar.image('index.png', width=150)
     st.sidebar.title(f"Bem-vindo, {name}")
     conn = st.connection("gsheets", type=GSheetsConnection)
-    df = conn.read(spreadsheet=url, usecols=list(range(7)))
+    df = conn.read(spreadsheet=url, worksheet="BD_calculos" usecols=list(range(7)))
     
     
     
