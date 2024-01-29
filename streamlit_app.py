@@ -239,7 +239,7 @@ if authentication_status:
         classificacao = index[2]
         
         # Calculate the differences for each month
-        differences = [row['CUSTO'] if (row['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO' and row['MÊS'] == month) else -row['CUSTO'] if (row['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO' and row['MÊS'] == month) else 0 for month in months_order]
+        differences = [row.at[month] if (row.at['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO' and row.at['MÊS'] == month) else -row.at[month] if (row.at['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO' and row.at['MÊS'] == month) else 0 for month in months_order]
         
         # Append the row to the table_data DataFrame
         table_data = table_data.append({'UNIDADE': unidade, 'DESCRIÇÃO': descricao, 'CLASSIFICAÇÃO': classificacao, 
