@@ -212,6 +212,18 @@ if authentication_status:
     col5.metric(label='', value=formatted_saldo_geral, delta=None)
 
 
+    # Calculate the "Porcentagem de Gasto do Contrato de Gestão"
+    porcentagem_gasto_contrato = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].sum() / 33000000 * 100
+    
+    # Format the percentage
+    formatted_porcentagem_gasto_contrato = "{:.2f}%".format(porcentagem_gasto_contrato)
+    
+    # Display the "Porcentagem de Gasto do Contrato de Gestão" in col6
+    col6.subheader('Porcentagem de Gasto do Contrato de Gestão 📊')
+    col6.metric(label='', value=formatted_porcentagem_gasto_contrato, delta=None)
+
+
+
 
 
 
