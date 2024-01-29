@@ -228,29 +228,7 @@ if authentication_status:
 
 
 
-    # Replace NaN values in the 'CUSTO' column with 0
-    filtered_df['CUSTO'] = filtered_df['CUSTO'].fillna(0)
-    
-    # Create separate dataframes for "PLANEJADO" and "EXECUTADO"
-    planejado_df = filtered_df[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO']
-    executado_df = filtered_df[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO']
-    
-    # Merge the dataframes on common columns
-    merged_df = pd.merge(planejado_df[['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS', 'CUSTO']],
-                         executado_df[['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS', 'CUSTO']],
-                         on=['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS'], suffixes=('_PLANEJADO', '_EXECUTADO'), how='outer')
-    
-    # Calculate the 'SALDO' column
-    merged_df['SALDO'] = merged_df['CUSTO_PLANEJADO'].fillna(0) - merged_df['CUSTO_EXECUTADO'].fillna(0)
-    
-    # Create a DataFrame with the specified headers
-    saldo_table = merged_df[['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS', 'SALDO']]
-    
-    # Format the 'SALDO' column to display as Brazilian Real currency
-    saldo_table['SALDO'] = saldo_table['SALDO'].apply(lambda x: "R${:,.2f}".format(x) if x < 0 else "R${:,.2f}".format(x))
-    
-    # Display the table in col7 with red lines for negative 'SALDO'
-    col7.table(saldo_table.style.applymap(lambda x: 'color: red' if x < 0 else 'color: black', subset=['SALDO']))
+
 
 
 
