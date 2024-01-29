@@ -208,7 +208,7 @@ if authentication_status:
     formatted_saldo_geral = "R${:,.2f}".format(saldo_geral)
     
     # Display the "Saldo Geral" in col5
-    col5.subheader('💰 Saldo Geral: Planejado x Executado')
+    col5.subheader('💰 Saldo: Planejado x Executado')
     col5.metric(label='', value=formatted_saldo_geral, delta=None)
 
 
