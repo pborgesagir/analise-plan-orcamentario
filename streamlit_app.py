@@ -231,6 +231,8 @@ if authentication_status:
 
     
 
+    import plotly.graph_objects as go
+
     # Calculate the SALDO (difference) between "PLANEJADO" and "EXECUTADO"
     whdf['SALDO'] = whdf.loc[whdf['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].fillna(0) - whdf.loc[whdf['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].fillna(0)
     
@@ -252,7 +254,7 @@ if authentication_status:
                    font=dict(size=12),
                    align=['left', 'center'],
                    fill_color=[colourcode_saldo],
-                   line_color='rgba(255,255,255,0.2),
+                   line_color='rgba(255,255,255,0.2)',
                    height=25)
     )])
     
@@ -267,6 +269,7 @@ if authentication_status:
     
     # Display the table in cw1
     cw1.plotly_chart(table_fig, use_container_width=True)
+
 
 
     
