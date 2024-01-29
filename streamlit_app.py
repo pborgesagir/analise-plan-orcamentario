@@ -227,6 +227,24 @@ if authentication_status:
 
 
 
+
+    # Replace NaN values in the 'CUSTO' column with 0
+    filtered_df['CUSTO'] = filtered_df['CUSTO'].fillna(0)
+    
+    # Calculate the difference between "PLANEJADO" and "EXECUTADO"
+    filtered_df['SALDO'] = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].values - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].values
+    
+    # Create a DataFrame with the specified headers
+    saldo_table = filtered_df[['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS', 'SALDO']]
+    
+    # Format the 'SALDO' column to display as Brazilian Real currency
+    saldo_table['SALDO'] = saldo_table['SALDO'].apply(lambda x: "R${:,.2f}".format(x) if x < 0 else "R${:,.2f}".format(x))
+    
+    # Display the table in col7 with red lines for negative 'SALDO'
+    col7.table(saldo_table.style.applymap(lambda x: 'color: red' if x < 0 else 'color: black', subset=['SALDO']))
+
+
+
    
 
     
