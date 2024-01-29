@@ -229,28 +229,44 @@ if authentication_status:
 
    
 
-    # Create a DataFrame to store the differences for each month
-    table_data = pd.DataFrame(columns=['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'])
     
-    # Iterate through each unique combination of 'UNIDADE', 'DESCRIÇÃO', and 'CLASSIFICAÇÃO'
-    for index, row in filtered_df.groupby(['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO']).sum().iterrows():
-        unidade = index[0]
-        descricao = index[1]
-        classificacao = index[2]
-        
-        # Calculate the differences for each month
-        differences = [row.get((month, 'PLANEJADO'), 0) - row.get((month, 'EXECUTADO'), 0) for month in months_order]
-        
-        # Append the row to the table_data DataFrame
-        table_data = table_data.append({'UNIDADE': unidade, 'DESCRIÇÃO': descricao, 'CLASSIFICAÇÃO': classificacao, 
-                                        'JANEIRO': differences[0], 'FEVEREIRO': differences[1], 'MARÇO': differences[2], 'ABRIL': differences[3],
-                                        'MAIO': differences[4], 'JUNHO': differences[5], 'JULHO': differences[6], 'AGOSTO': differences[7],
-                                        'SETEMBRO': differences[8], 'OUTUBRO': differences[9], 'NOVEMBRO': differences[10], 'DEZEMBRO': differences[11]},
-                                       ignore_index=True)
+
+    # Calculate the SALDO (difference) between "PLANEJADO" and "EXECUTADO"
+    whdf['SALDO'] = whdf.loc[whdf['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].fillna(0) - whdf.loc[whdf['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].fillna(0)
     
-    # Display the table in col8
-    col8.subheader('Diferenças entre PLANEJADO e EXECUTADO por Mês e Unidade 📊')
-    col8.dataframe(table_data)
+    # Create a color code for the SALDO column (red if negative, green if positive)
+    colourcode_saldo = whdf['SALDO'].apply(lambda x: 'background-color: red' if x < 0 else 'background-color: green')
+    
+    # Create a table using Plotly Graph Objects
+    table_fig = go.Figure(data=[go.Table(
+        columnorder=[0, 1, 2, 3, 4],
+        columnwidth=[15, 20, 15, 10, 10],
+        header=dict(values=['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS', 'SALDO'],
+                    font=dict(size=12, color='white'),
+                    fill_color='#264653',
+                    line_color='rgba(255,255,255,0.2)',
+                    align=['left', 'center'],
+                    height=30
+                    ),
+        cells=dict(values=[whdf['UNIDADE'], whdf['DESCRIÇÃO'], whdf['CLASSIFICAÇÃO'], whdf['MÊS'], whdf['SALDO']],
+                   font=dict(size=12),
+                   align=['left', 'center'],
+                   fill_color=[colourcode_saldo],
+                   line_color='rgba(255,255,255,0.2),
+                   height=25)
+    )])
+    
+    # Update the layout of the table
+    table_fig.update_layout(
+        title_text="Difference between PLANEJADO and EXECUTADO",
+        title_font_color='#264653',
+        title_x=0,
+        margin=dict(l=0, r=10, b=10, t=30),
+        height=480
+    )
+    
+    # Display the table in cw1
+    cw1.plotly_chart(table_fig, use_container_width=True)
 
 
     
