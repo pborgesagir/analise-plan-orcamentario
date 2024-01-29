@@ -235,7 +235,8 @@ if authentication_status:
     saldo_table = filtered_df[['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS']].copy()
     
     # Calculate the "Saldo" column as the difference between "PLANEJADO" and "EXECUTADO"
-    saldo_table['SALDO'] = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].values - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].values
+    saldo_table['SALDO'] = (filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].values 
+                            - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].values)[:len(saldo_table)]
     
     # Highlight the "Saldo" column in red when it's negative
     saldo_table_style = saldo_table.style.applymap(lambda x: 'color: red' if x < 0 else '', subset=['SALDO'])
@@ -243,6 +244,7 @@ if authentication_status:
     # Display the table in col7
     col7.subheader('Diferença entre PLANEJADO e EXECUTADO por Unidade, Descrição, Classificação e Mês 📊')
     col7.dataframe(saldo_table_style, index=False)
+
 
 
 
