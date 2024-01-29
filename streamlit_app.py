@@ -262,7 +262,7 @@ if authentication_status:
     df1 = conn.read(spreadsheet=url1, worksheet="Planejado", usecols=list(range(15)))
     
     # Display the filtered DataFrame
-    st.write("Dados Selecionados2:")
+    st.write("Planejado:")
     st.dataframe(df1)
 
  
