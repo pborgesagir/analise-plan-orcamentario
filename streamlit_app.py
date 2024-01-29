@@ -231,51 +231,18 @@ if authentication_status:
 
     
 
-    import plotly.graph_objects as go
-
-    # Calculate the difference between "PLANEJADO" and "EXECUTADO" for each row
-    filtered_df['SALDO'] = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].values - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].values
+    # Create a new DataFrame for the table with the specified headers
+    saldo_table = filtered_df[['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS']].copy()
     
-    # Create a color code for negative values
-    colourcode = ['red' if saldo < 0 else 'white' for saldo in filtered_df['SALDO']]
+    # Calculate the "Saldo" column as the difference between "PLANEJADO" and "EXECUTADO"
+    saldo_table['SALDO'] = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].values - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].values
     
-    # Define headers and values for the table
-    headers = ['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'MÊS', 'SALDO']
-    table_values = [filtered_df[col].tolist() for col in headers]
+    # Highlight the "Saldo" column in red when it's negative
+    saldo_table_style = saldo_table.style.applymap(lambda x: 'color: red' if x < 0 else '', subset=['SALDO'])
     
-    # Create a table using Plotly
-    fig_table = go.Figure(data=[go.Table(
-        columnorder=[0, 1, 2, 3, 4],
-        columnwidth=[30, 30, 30, 30, 30],
-        header=dict(
-            values=headers,
-            font=dict(size=12, color='white'),
-            fill_color='#264653',
-            line_color='rgba(255,255,255,0.2)',
-            align=['left', 'center'],
-            height=20
-        ),
-        cells=dict(
-            values=table_values,
-            font=dict(size=12),
-            align=['left', 'center'],
-            fill_color=colourcode,
-            line_color='rgba(255,255,255,0.2)',
-            height=20
-        ))
-    ])
-    
-    # Update the layout of the table
-    fig_table.update_layout(
-        title_text="Differences between PLANEJADO and EXECUTADO",
-        title_font_color='#264653',
-        title_x=0,
-        margin=dict(l=0, r=10, b=10, t=30),
-        height=480
-    )
-    
-    # Show the table in col7
-    col7.plotly_chart(fig_table, use_container_width=True)
+    # Display the table in col7
+    col7.subheader('Diferença entre PLANEJADO e EXECUTADO por Unidade, Descrição, Classificação e Mês 📊')
+    col7.dataframe(saldo_table_style, index=False)
 
 
 
