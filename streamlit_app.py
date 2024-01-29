@@ -124,7 +124,20 @@ if authentication_status:
     col23, col24 = st.columns(2)
 
  
-
+    # Group by 'MÊS' and 'EXCECUÇÃO ORÇAMENTÁRIA', summing up the 'CUSTO'
+    chart_data = filtered_df.groupby(['MÊS', 'EXCECUÇÃO ORÇAMENTÁRIA'])['CUSTO'].sum().reset_index()
+    
+    # Filter only 'EXECUTADO' and 'PLANEJADO'
+    chart_data = chart_data[chart_data['EXCECUÇÃO ORÇAMENTÁRIA'].isin(['EXECUTADO', 'PLANEJADO'])]
+    
+    # Create a bar chart using Plotly Express
+    fig = px.bar(chart_data, x='MÊS', y='CUSTO', color='EXCECUÇÃO ORÇAMENTÁRIA',
+                 title='Execução vs Planejamento Orçamentário',
+                 labels={'CUSTO': 'Total Custo'},
+                 height=400)
+    
+    # Show the chart in col1
+    col1.plotly_chart(fig)
    
     
     
