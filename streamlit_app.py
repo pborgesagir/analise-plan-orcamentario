@@ -231,13 +231,11 @@ if authentication_status:
 
     
 
-    import plotly.graph_objects as go
-
     # Calculate the SALDO (difference) between "PLANEJADO" and "EXECUTADO"
-    whdf['SALDO'] = whdf.loc[whdf['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].fillna(0) - whdf.loc[whdf['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].fillna(0)
+    filtered_df['SALDO'] = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].fillna(0) - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].fillna(0)
     
     # Create a color code for the SALDO column (red if negative, green if positive)
-    colourcode_saldo = whdf['SALDO'].apply(lambda x: 'background-color: red' if x < 0 else 'background-color: green')
+    colourcode_saldo = filtered_df['SALDO'].apply(lambda x: 'background-color: red' if x < 0 else 'background-color: green')
     
     # Create a table using Plotly Graph Objects
     table_fig = go.Figure(data=[go.Table(
@@ -250,7 +248,7 @@ if authentication_status:
                     align=['left', 'center'],
                     height=30
                     ),
-        cells=dict(values=[whdf['UNIDADE'], whdf['DESCRIÇÃO'], whdf['CLASSIFICAÇÃO'], whdf['MÊS'], whdf['SALDO']],
+        cells=dict(values=[filtered_df['UNIDADE'], filtered_df['DESCRIÇÃO'], filtered_df['CLASSIFICAÇÃO'], filtered_df['MÊS'], filtered_df['SALDO']],
                    font=dict(size=12),
                    align=['left', 'center'],
                    fill_color=[colourcode_saldo],
@@ -268,7 +266,8 @@ if authentication_status:
     )
     
     # Display the table in cw1
-    cw1.plotly_chart(table_fig, use_container_width=True)
+    col7.plotly_chart(table_fig, use_container_width=True)
+
 
 
 
