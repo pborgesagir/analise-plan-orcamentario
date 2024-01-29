@@ -202,7 +202,7 @@ if authentication_status:
 
 
     # Calculate the total difference between "PLANEJADO" and "EXECUTADO"
-    saldo_geral = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'].isin(['PLANEJADO', 'EXECUTADO']), 'CUSTO'].sum()
+    saldo_geral = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].sum() - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].sum()
     
     # Format the total difference to display as Brazilian Real currency
     formatted_saldo_geral = "R${:,.2f}".format(saldo_geral)
@@ -210,6 +210,7 @@ if authentication_status:
     # Display the "Saldo Geral" in col5
     col5.subheader('Saldo Geral 💰')
     col5.metric(label='', value=formatted_saldo_geral, delta=None)
+
 
 
 
