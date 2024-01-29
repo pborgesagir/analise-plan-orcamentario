@@ -150,6 +150,25 @@ if authentication_status:
     # Show the chart in col1
     col1.plotly_chart(fig)
 
+    # Calculate the difference between "PLANEJADO" and "EXECUTADO" for each month
+    diff_data = filtered_df.pivot_table(index='MÊS', columns='EXCECUÇÃO ORÇAMENTÁRIA', values='CUSTO', aggfunc='sum').fillna(0)
+    diff_data['DIFERENÇA'] = diff_data['PLANEJADO'] - diff_data['EXECUTADO']
+    
+    # Reorder the 'MÊS' column based on the defined order
+    diff_data = diff_data.reset_index()
+    diff_data['MÊS'] = pd.Categorical(diff_data['MÊS'], categories=months_order, ordered=True)
+    diff_data = diff_data.sort_values(by='MÊS')
+    
+    # Create a line chart using Plotly Express
+    fig_diff = px.line(diff_data, x='MÊS', y='DIFERENÇA',
+                       title='Diferença entre Planejado e Executado',
+                       labels={'DIFERENÇA': 'Diferença (PLANEJADO - EXECUTADO)'},
+                       height=400)
+    
+    # Show the chart in col2
+    col2.plotly_chart(fig_diff)
+
+
    
     
     
