@@ -224,37 +224,11 @@ if authentication_status:
     # Display the "Porcentagem de Gasto do Contrato de Gestão" in col6
     col6.subheader('Porcentagem de Gasto do Contrato de Gestão 📊')
     col6.metric(label='', value=formatted_porcentagem_gasto_contrato_gestao, delta=None)
-
-
-
-   
-
     
 
 
 
 
-    
-
-
-
-
-
-
-   
-    
-    
-    
- 
-    
-   
-    
-
-
-
-    
-    
-    
     
     
     
