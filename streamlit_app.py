@@ -124,20 +124,32 @@ if authentication_status:
     col23, col24 = st.columns(2)
 
  
+    
+
+    # Define the order of months
+    months_order = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"]
+    
     # Group by 'MÊS' and 'EXCECUÇÃO ORÇAMENTÁRIA', summing up the 'CUSTO'
     chart_data = filtered_df.groupby(['MÊS', 'EXCECUÇÃO ORÇAMENTÁRIA'])['CUSTO'].sum().reset_index()
     
     # Filter only 'EXECUTADO' and 'PLANEJADO'
     chart_data = chart_data[chart_data['EXCECUÇÃO ORÇAMENTÁRIA'].isin(['EXECUTADO', 'PLANEJADO'])]
     
-    # Create a bar chart using Plotly Express
-    fig = px.bar(chart_data, x='MÊS', y='CUSTO', color='EXCECUÇÃO ORÇAMENTÁRIA',
-                 title='Execução vs Planejamento Orçamentário',
-                 labels={'CUSTO': 'Total Custo'},
-                 height=400)
+    # Reorder the 'MÊS' column based on the defined order
+    chart_data['MÊS'] = pd.Categorical(chart_data['MÊS'], categories=months_order, ordered=True)
+    
+    # Sort the DataFrame by the ordered 'MÊS' column
+    chart_data = chart_data.sort_values(by='MÊS')
+    
+    # Create a line chart using Plotly Express
+    fig = px.line(chart_data, x='MÊS', y='CUSTO', color='EXCECUÇÃO ORÇAMENTÁRIA',
+                  title='Execução vs Planejamento Orçamentário',
+                  labels={'CUSTO': 'Total Custo'},
+                  height=400)
     
     # Show the chart in col1
     col1.plotly_chart(fig)
+
    
     
     
