@@ -224,6 +224,34 @@ if authentication_status:
     # Display the "Porcentagem de Gasto do Contrato de Gestão" in col6
     col6.subheader('Porcentagem de Gasto do Contrato de Gestão 📊')
     col6.metric(label='', value=formatted_porcentagem_gasto_contrato_gestao, delta=None)
+
+
+
+   
+
+    # Create a DataFrame to store the differences for each month
+    table_data = pd.DataFrame(columns=['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO', 'JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'])
+    
+    # Iterate through each unique combination of 'UNIDADE', 'DESCRIÇÃO', and 'CLASSIFICAÇÃO'
+    for index, row in filtered_df.groupby(['UNIDADE', 'DESCRIÇÃO', 'CLASSIFICAÇÃO']).sum().iterrows():
+        unidade = index[0]
+        descricao = index[1]
+        classificacao = index[2]
+        
+        # Calculate the differences for each month
+        differences = [row['CUSTO'] if (row['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO' and row['MÊS'] == month) else -row['CUSTO'] if (row['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO' and row['MÊS'] == month) else 0 for month in months_order]
+        
+        # Append the row to the table_data DataFrame
+        table_data = table_data.append({'UNIDADE': unidade, 'DESCRIÇÃO': descricao, 'CLASSIFICAÇÃO': classificacao, 
+                                        'JANEIRO': differences[0], 'FEVEREIRO': differences[1], 'MARÇO': differences[2], 'ABRIL': differences[3],
+                                        'MAIO': differences[4], 'JUNHO': differences[5], 'JULHO': differences[6], 'AGOSTO': differences[7],
+                                        'SETEMBRO': differences[8], 'OUTUBRO': differences[9], 'NOVEMBRO': differences[10], 'DEZEMBRO': differences[11]},
+                                       ignore_index=True)
+    
+    # Display the table in col8
+    col8.subheader('Diferenças entre PLANEJADO e EXECUTADO por Mês e Unidade 📊')
+    col8.dataframe(table_data)
+
     
 
 
