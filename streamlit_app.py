@@ -111,8 +111,9 @@ if authentication_status:
 
     
     
-    col1, col2, col3 = st.columns(3)
-    col4, col5, col6 = st.columns(3)
+    col1, col2 = st.columns(2)
+    col3, col4 = st.columns(2)
+    col5, col6 = st.columns(2)
     col7, col8, col9 = st.columns(3)
     col10, col11 = st.columns(2)
     col12, col13 = st.columns(2)
