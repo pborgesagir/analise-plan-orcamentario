@@ -9,6 +9,8 @@ import re
 import streamlit_authenticator as stauth 
 import pickle
 from pathlib import Path
+from reportlab.pdfgen import canvas
+from io import BytesIO
 
 
 
