@@ -263,6 +263,9 @@ if authentication_status:
     st.write("Planejado:")
     st.dataframe(df1)
 
+    # Embedding the external link using an iframe
+    st.markdown("<iframe src='https://chatchris.pythonanywhere.com/' width='100%' height='600'></iframe>", unsafe_allow_html=True)
+
  
 
  
