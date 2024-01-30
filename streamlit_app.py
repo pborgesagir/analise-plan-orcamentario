@@ -132,11 +132,11 @@ if authentication_status:
     # Define the order of months
     months_order = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"]
     
-    # Group by 'MÊS' and 'EXCECUÇÃO ORÇAMENTÁRIA', summing up the 'CUSTO'
-    chart_data = filtered_df.groupby(['MÊS', 'EXCECUÇÃO ORÇAMENTÁRIA'])['CUSTO'].sum().reset_index()
+    # Group by 'MÊS' and 'EXECUCACAO_ORCAMENTARIA', summing up the 'CUSTO'
+    chart_data = filtered_df.groupby(['MÊS', 'EXECUCACAO_ORCAMENTARIA'])['CUSTO'].sum().reset_index()
     
     # Filter only 'EXECUTADO' and 'PLANEJADO'
-    chart_data = chart_data[chart_data['EXCECUÇÃO ORÇAMENTÁRIA'].isin(['EXECUTADO', 'PLANEJADO'])]
+    chart_data = chart_data[chart_data['EXECUCACAO_ORCAMENTARIA'].isin(['EXECUTADO', 'PLANEJADO'])]
     
     # Reorder the 'MÊS' column based on the defined order
     chart_data['MÊS'] = pd.Categorical(chart_data['MÊS'], categories=months_order, ordered=True)
@@ -145,7 +145,7 @@ if authentication_status:
     chart_data = chart_data.sort_values(by='MÊS')
     
     # Create a line chart using Plotly Express
-    fig = px.line(chart_data, x='MÊS', y='CUSTO', color='EXCECUÇÃO ORÇAMENTÁRIA',
+    fig = px.line(chart_data, x='MÊS', y='CUSTO', color='EXECUCACAO_ORCAMENTARIA',
                   title='Execução vs Planejamento Orçamentário',
                   labels={'CUSTO': 'Total Custo'},
                   height=400)
@@ -154,7 +154,7 @@ if authentication_status:
     col1.plotly_chart(fig)
 
     # Calculate the difference between "PLANEJADO" and "EXECUTADO" for each month
-    diff_data = filtered_df.pivot_table(index='MÊS', columns='EXCECUÇÃO ORÇAMENTÁRIA', values='CUSTO', aggfunc='sum').fillna(0)
+    diff_data = filtered_df.pivot_table(index='MÊS', columns='EXECUCACAO_ORCAMENTARIA', values='CUSTO', aggfunc='sum').fillna(0)
     diff_data['DIFERENÇA'] = diff_data['PLANEJADO'] - diff_data['EXECUTADO']
     
     # Reorder the 'MÊS' column based on the defined order
@@ -174,7 +174,7 @@ if authentication_status:
     col2.plotly_chart(fig_diff)
 
     # Calculate the difference between "PLANEJADO" and "EXECUTADO" for each CLASSIFICAÇÃO
-    classificacao_diff = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO'].sum() - x[df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO'].sum()}).reset_index()
+    classificacao_diff = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXECUCACAO_ORCAMENTARIA'] == 'PLANEJADO'].sum() - x[df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO'].sum()}).reset_index()
     classificacao_diff = classificacao_diff.sort_values(by='CUSTO', ascending=False).head(10)
     
     # Create a bar chart using Plotly Express
@@ -189,7 +189,7 @@ if authentication_status:
 
 
     # Calculate the difference between "EXECUTADO" and "PLANEJADO" for each CLASSIFICAÇÃO
-    classificacao_diff_executado = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO'].sum() - x[df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO'].sum()}).reset_index()
+    classificacao_diff_executado = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO'].sum() - x[df['EXECUCACAO_ORCAMENTARIA'] == 'PLANEJADO'].sum()}).reset_index()
     classificacao_diff_executado = classificacao_diff_executado.sort_values(by='CUSTO', ascending=False).head(10)
     
     # Create a bar chart using Plotly Express
@@ -204,7 +204,7 @@ if authentication_status:
 
 
     # Calculate the total difference between "PLANEJADO" and "EXECUTADO"
-    saldo_geral = filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'PLANEJADO', 'CUSTO'].sum() - filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].sum()
+    saldo_geral = filtered_df.loc[filtered_df['EXECUCACAO_ORCAMENTARIA'] == 'PLANEJADO', 'CUSTO'].sum() - filtered_df.loc[filtered_df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO', 'CUSTO'].sum()
     
     # Format the total difference to display as Brazilian Real currency
     formatted_saldo_geral = "R${:,.2f}".format(saldo_geral)
@@ -218,7 +218,7 @@ if authentication_status:
     contrato_gestao_value = 33000000 * 12
     
     # Calculate the percentage of "EXECUTADO" relative to the constant value
-    porcentagem_gasto_contrato_gestao = (filtered_df.loc[filtered_df['EXCECUÇÃO ORÇAMENTÁRIA'] == 'EXECUTADO', 'CUSTO'].sum() / contrato_gestao_value) * 100
+    porcentagem_gasto_contrato_gestao = (filtered_df.loc[filtered_df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO', 'CUSTO'].sum() / contrato_gestao_value) * 100
     
     # Format the percentage to display with two decimal places
     formatted_porcentagem_gasto_contrato_gestao = "{:.2f}%".format(porcentagem_gasto_contrato_gestao)
