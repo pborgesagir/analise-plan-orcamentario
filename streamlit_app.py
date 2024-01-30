@@ -229,6 +229,27 @@ if authentication_status:
     
 
 
+    
+    def generate_pdf():
+        buffer = BytesIO()
+        pdf = canvas.Canvas(buffer)
+    
+        # Add content to the PDF (you can customize this based on your app's content)
+        pdf.drawString(100, 800, "PDF Content - Your App Title")
+        pdf.drawString(100, 780, "Some additional information...")
+    
+        # Save the PDF to the buffer
+        pdf.save()
+        buffer.seek(0)
+        return buffer
+    
+    # Button to trigger PDF generation and download
+    if st.button("Download PDF"):
+        pdf_buffer = generate_pdf()
+        st.download_button(label="Download PDF", data=pdf_buffer, file_name="your_app_report.pdf", mime="application/pdf", key="pdf-download")    
+
+    
+    
 
 
     
@@ -264,7 +285,7 @@ if authentication_status:
     st.dataframe(df1)
 
     # Embedding the external link using an iframe
-    st.markdown("<iframe src='https://chatchris.pythonanywhere.com/' width='100%' height='600'></iframe>", unsafe_allow_html=True)
+    #st.markdown("<iframe src='https://chatchris.pythonanywhere.com/' width='100%' height='600'></iframe>", unsafe_allow_html=True)
 
  
 
