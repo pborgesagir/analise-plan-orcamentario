@@ -197,7 +197,7 @@ if authentication_status:
     
     # Create a bar chart using Plotly Express
     fig_classificacao_diff_executado = px.bar(classificacao_diff_executado, x='CLASSIFICAÇÃO', y='CUSTO',
-                                              title='Top 10 Diferenças entre Executado e Planejado por Classificação',
+                                              title='Top 16 Diferenças entre Executado e Planejado por Classificação',
                                               labels={'CUSTO': 'Diferença (EXECUTADO - PLANEJADO)'},
                                               height=400)
     
