@@ -179,33 +179,33 @@ if authentication_status:
 
     # Calculate the difference between "PLANEJADO" and "EXECUTADO" for each CLASSIFICAÇÃO
     classificacao_diff = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXECUCACAO_ORCAMENTARIA'] == 'PLANEJADO'].sum() - x[df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO'].sum()}).reset_index()
-    classificacao_diff = classificacao_diff.sort_values(by='CUSTO', ascending=False).head(10)
+    classificacao_diff = classificacao_diff.sort_values(by='CUSTO', ascending=False).head(16)
     
     # Create a bar chart using Plotly Express
     fig_classificacao_diff = px.bar(classificacao_diff, x='CLASSIFICAÇÃO', y='CUSTO',
-                                    title='Top 10 Diferenças entre Planejado e Executado por Classificação',
+                                    title='Top 16 Diferenças entre Planejado e Executado por Classificação',
                                     labels={'CUSTO': 'Diferença (PLANEJADO - EXECUTADO)'},
-                                    height=400)
+                                    height=600)
     
     # Show the chart in col3
-    col3.plotly_chart(fig_classificacao_diff)
+    col4.plotly_chart(fig_classificacao_diff, width=0)
 
 
 
     # Calculate the difference between "EXECUTADO" and "PLANEJADO" for each CLASSIFICAÇÃO
     classificacao_diff_executado = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO'].sum() - x[df['EXECUCACAO_ORCAMENTARIA'] == 'PLANEJADO'].sum()}).reset_index()
-    classificacao_diff_executado = classificacao_diff_executado.sort_values(by='CUSTO', ascending=False).head(16)
+    classificacao_diff_executado = classificacao_diff_executado.sort_values(by='CUSTO', ascending=False).head(10)
     
     # Create a bar chart using Plotly Express
     fig_classificacao_diff_executado = px.bar(classificacao_diff_executado, x='CLASSIFICAÇÃO', y='CUSTO',
-                                              title='Top 16 Diferenças entre Executado e Planejado por Classificação',
+                                              title='Top 10 Diferenças entre Executado e Planejado por Classificação',
                                               labels={'CUSTO': 'Diferença (EXECUTADO - PLANEJADO)'},
-                                              height=800)
+                                              height=400)
     
     
     # Show the chart in col4 with custom width and height
     # Show the chart in col4 with custom width and height
-    col4.plotly_chart(fig_classificacao_diff_executado, width=0, height=500)
+    col3.plotly_chart(fig_classificacao_diff_executado)
 
 
 
