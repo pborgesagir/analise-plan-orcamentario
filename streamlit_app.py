@@ -200,11 +200,10 @@ if authentication_status:
     fig_classificacao_diff_executado = px.bar(classificacao_diff_executado, x='CLASSIFICAÇÃO', y='CUSTO',
                                               title='Top 16 Diferenças entre Executado e Planejado por Classificação',
                                               labels={'CUSTO': 'Diferença (EXECUTADO - PLANEJADO)'},
-                                              height=400, width=col4.width)
+                                              height=400)
     
     # Show the chart in col4
-    # Show the chart in col4 with automatic width adjustment
-    col4.plotly_chart(fig_classificacao_diff_executado, use_container_width=True)
+    col4.plotly_chart(fig_classificacao_diff_executado)
 
 
 
