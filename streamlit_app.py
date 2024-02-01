@@ -204,7 +204,7 @@ if authentication_status:
     
     
     # Show the chart in col4 with custom width and height
-    col4.plotly_chart(fig_classificacao_diff_executado, use_container_width=True, height=1000)
+    col4.plotly_chart(fig_classificacao_diff_executado, use_container_width=True, height=800)
 
 
 
