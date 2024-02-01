@@ -155,7 +155,7 @@ if authentication_status:
                   height=400)
     
     # Show the chart in col1
-    col1.plotly_chart(fig)
+    col3.plotly_chart(fig)
 
     # Calculate the difference between "PLANEJADO" and "EXECUTADO" for each month
     diff_data = filtered_df.pivot_table(index='MÊS', columns='EXECUCACAO_ORCAMENTARIA', values='CUSTO', aggfunc='sum').fillna(0)
@@ -175,7 +175,7 @@ if authentication_status:
 
     
     # Show the chart in col2
-    col2.plotly_chart(fig_diff)
+    col5.plotly_chart(fig_diff)
 
     # Calculate the difference between "PLANEJADO" and "EXECUTADO" for each CLASSIFICAÇÃO
     classificacao_diff = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXECUCACAO_ORCAMENTARIA'] == 'PLANEJADO'].sum() - x[df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO'].sum()}).reset_index()
@@ -209,8 +209,8 @@ if authentication_status:
     formatted_saldo_geral = "R${:,.2f}".format(saldo_geral)
     
     # Display the "Saldo Geral" in col5
-    col5.subheader('💰 Saldo Geral: Planejado x Executado')
-    col5.metric(label='', value=formatted_saldo_geral, delta=None)
+    col1.subheader('💰 Saldo Geral: Planejado x Executado')
+    col1.metric(label='', value=formatted_saldo_geral, delta=None)
 
 
     # Specify the constant value
@@ -223,8 +223,8 @@ if authentication_status:
     formatted_porcentagem_gasto_contrato_gestao = "{:.2f}%".format(porcentagem_gasto_contrato_gestao)
     
     # Display the "Porcentagem de Gasto do Contrato de Gestão" in col6
-    col6.subheader('Porcentagem de Gasto do Contrato de Gestão 📊')
-    col6.metric(label='', value=formatted_porcentagem_gasto_contrato_gestao, delta=None)
+    col2.subheader('Porcentagem de Gasto do Contrato de Gestão 📊')
+    col2.metric(label='', value=formatted_porcentagem_gasto_contrato_gestao, delta=None)
     
 
 
