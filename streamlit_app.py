@@ -193,7 +193,7 @@ if authentication_status:
 
     # Calculate the difference between "EXECUTADO" and "PLANEJADO" for each CLASSIFICAÇÃO
     classificacao_diff_executado = filtered_df.groupby('CLASSIFICAÇÃO').agg({'CUSTO': lambda x: x[df['EXECUCACAO_ORCAMENTARIA'] == 'EXECUTADO'].sum() - x[df['EXECUCACAO_ORCAMENTARIA'] == 'PLANEJADO'].sum()}).reset_index()
-    classificacao_diff_executado = classificacao_diff_executado.sort_values(by='CUSTO', ascending=False).head(10)
+    classificacao_diff_executado = classificacao_diff_executado.sort_values(by='CUSTO', ascending=False).head(16)
     
     # Create a bar chart using Plotly Express
     fig_classificacao_diff_executado = px.bar(classificacao_diff_executado, x='CLASSIFICAÇÃO', y='CUSTO',
