@@ -202,9 +202,10 @@ if authentication_status:
                                               labels={'CUSTO': 'Diferença (EXECUTADO - PLANEJADO)'},
                                               height=400)
     
-    # Show the chart in col4
-    # Show the chart in col4 with full width
-    col4.plotly_chart(fig_classificacao_diff_executado, use_container_width=True)
+    
+    # Show the chart in col4 with custom width and height
+    col4.plotly_chart(fig_classificacao_diff_executado, use_container_width=True, height=500)
+
 
 
 
