@@ -252,9 +252,7 @@ if authentication_status:
 
 
 
-    
-
-    import plotly.express as px
+    import plotly.graph_objects as go
     
     # Assuming 'filtered_df' has the necessary data after all the filtering
     
@@ -266,16 +264,43 @@ if authentication_status:
     grouped_data['MÊS'] = pd.Categorical(grouped_data['MÊS'], categories=months_order, ordered=True)
     grouped_data = grouped_data.sort_values('MÊS')
     
-    # Create a bar chart using Plotly Express
-    fig = px.bar(grouped_data, x='MÊS', y=['PLANEJADO', 'EXECUTADO'],
-                 title='Previsão vs Realizado',
-                 labels={'value': 'Custo', 'MÊS': 'Mês'},
-                 barmode='group')
+    # Calculate the difference between 'PLANEJADO' and 'EXECUTADO'
+    grouped_data['DIFERENÇA'] = grouped_data['PLANEJADO'] - grouped_data['EXECUTADO']
+    
+    # Create a bar chart using Plotly
+    fig = go.Figure()
+    
+    # Add PLANEJADO bars
+    fig.add_trace(go.Bar(
+        x=grouped_data['MÊS'],
+        y=grouped_data['PLANEJADO'],
+        name='PLANEJADO',
+        marker_color='blue'
+    ))
+    
+    # Add EXECUTADO bars
+    fig.add_trace(go.Bar(
+        x=grouped_data['MÊS'],
+        y=grouped_data['EXECUTADO'],
+        name='EXECUTADO',
+        marker_color='red'
+    ))
+    
+    # Add DIFERENÇA bars
+    fig.add_trace(go.Bar(
+        x=grouped_data['MÊS'],
+        y=grouped_data['DIFERENÇA'],
+        name='DIFERENÇA',
+        marker_color='green'
+    ))
     
     # Update the layout to match your style preferences
     fig.update_layout(
+        title='Previsão vs Realizado vs Diferença',
+        xaxis_tickangle=-45,
         xaxis_title="Mês",
         yaxis_title="Custo",
+        barmode='group',
         legend_title="Execução Orçamentária"
     )
     
