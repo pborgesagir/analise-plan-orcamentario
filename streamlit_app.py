@@ -252,7 +252,7 @@ if authentication_status:
 
 
 
-    import plotly.graph_objects as go
+     import plotly.graph_objects as go
     
     # Assuming 'filtered_df' has the necessary data after all the filtering
     
@@ -267,6 +267,9 @@ if authentication_status:
     # Calculate the difference between 'PLANEJADO' and 'EXECUTADO'
     grouped_data['DIFERENÇA'] = abs(grouped_data['PLANEJADO'] - grouped_data['EXECUTADO'])
     
+    # Define a consistent bar width for all bars
+    bar_width = 0.4
+    
     # Create a bar chart using Plotly
     fig = go.Figure()
     
@@ -275,7 +278,8 @@ if authentication_status:
         x=grouped_data['MÊS'],
         y=grouped_data['PLANEJADO'],
         name='PLANEJADO',
-        marker_color='blue'
+        marker_color='blue',
+        width=bar_width  # Set consistent width
     ))
     
     # Add EXECUTADO bars
@@ -283,7 +287,8 @@ if authentication_status:
         x=grouped_data['MÊS'],
         y=grouped_data['EXECUTADO'],
         name='EXECUTADO',
-        marker_color='red'
+        marker_color='red',
+        width=bar_width  # Set consistent width
     ))
     
     # Add a third bar for the difference
@@ -291,17 +296,14 @@ if authentication_status:
     for i in range(len(grouped_data)):
         month = grouped_data['MÊS'][i]
         diff = grouped_data['DIFERENÇA'][i]
-        if grouped_data['PLANEJADO'][i] >= grouped_data['EXECUTADO'][i]:
-            base = grouped_data['EXECUTADO'][i]
-        else:
-            base = grouped_data['PLANEJADO'][i]
+        base = grouped_data['EXECUTADO'][i] if grouped_data['EXECUTADO'][i] < grouped_data['PLANEJADO'][i] else grouped_data['PLANEJADO'][i]
         fig.add_trace(go.Bar(
             x=[month],
             y=[diff],
             base=[base],
-            width=0.4,  # Adjust width to make the difference bars slightly narrower
             name='DIFERENÇA',
-            marker_color='green'
+            marker_color='green',
+            width=bar_width  # Set consistent width
         ))
     
     # Update the layout to match your style preferences
@@ -317,6 +319,7 @@ if authentication_status:
     
     # Show the chart in the Streamlit app
     st.plotly_chart(fig)
+
 
 
 
