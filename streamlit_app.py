@@ -254,6 +254,8 @@ if authentication_status:
 
     
 
+    import plotly.express as px
+    
     # Assuming 'filtered_df' has the necessary data after all the filtering
     
     # Group by 'MÊS' and 'EXECUCACAO_ORCAMENTARIA', summing up the 'CUSTO'
@@ -279,6 +281,7 @@ if authentication_status:
     
     # Show the chart in the Streamlit app
     st.plotly_chart(fig)
+
 
     
 
