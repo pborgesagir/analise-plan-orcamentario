@@ -264,33 +264,27 @@ if authentication_status:
     grouped_data['MÊS'] = pd.Categorical(grouped_data['MÊS'], categories=months_order, ordered=True)
     grouped_data = grouped_data.sort_values('MÊS')
     
-    # Calculate the difference between 'PLANEJADO' and 'EXECUTADO'
+    # Calculate the difference and determine which bar is smaller for each month
     grouped_data['DIFERENÇA'] = grouped_data['PLANEJADO'] - grouped_data['EXECUTADO']
+    grouped_data['BASE_BAR'] = grouped_data[['PLANEJADO', 'EXECUTADO']].min(axis=1)
+    grouped_data['DIFF_BAR'] = grouped_data['DIFERENÇA'].apply(lambda x: max(x, 0))
     
     # Create a bar chart using Plotly
     fig = go.Figure()
     
-    # Add PLANEJADO bars
+    # Add the base bar (smaller of PLANEJADO or EXECUTADO)
     fig.add_trace(go.Bar(
         x=grouped_data['MÊS'],
-        y=grouped_data['PLANEJADO'],
-        name='PLANEJADO',
-        marker_color='blue'
+        y=grouped_data['BASE_BAR'],
+        name='Base',
+        marker_color='grey'
     ))
     
-    # Add EXECUTADO bars
+    # Add the difference bar on top of the base bar
     fig.add_trace(go.Bar(
         x=grouped_data['MÊS'],
-        y=grouped_data['EXECUTADO'],
-        name='EXECUTADO',
-        marker_color='red'
-    ))
-    
-    # Add DIFERENÇA bars
-    fig.add_trace(go.Bar(
-        x=grouped_data['MÊS'],
-        y=grouped_data['DIFERENÇA'],
-        name='DIFERENÇA',
+        y=grouped_data['DIFF_BAR'],
+        name='Diferença',
         marker_color='green'
     ))
     
@@ -300,12 +294,13 @@ if authentication_status:
         xaxis_tickangle=-45,
         xaxis_title="Mês",
         yaxis_title="Custo",
-        barmode='group',
+        barmode='stack',  # Changed to 'stack' to stack 'Diferença' on top of 'Base'
         legend_title="Execução Orçamentária"
     )
     
     # Show the chart in the Streamlit app
     st.plotly_chart(fig)
+    
 
 
     
