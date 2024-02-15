@@ -251,7 +251,38 @@ if authentication_status:
     
 
 
+
     
+
+    # Assuming 'filtered_df' has the necessary data after all the filtering
+    
+    # Group by 'MÊS' and 'EXECUCACAO_ORCAMENTARIA', summing up the 'CUSTO'
+    grouped_data = filtered_df.groupby(['MÊS', 'EXECUCACAO_ORCAMENTARIA'])['CUSTO'].sum().unstack().reset_index()
+    
+    # Reorder the 'MÊS' column based on the defined order
+    months_order = ["JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO"]
+    grouped_data['MÊS'] = pd.Categorical(grouped_data['MÊS'], categories=months_order, ordered=True)
+    grouped_data = grouped_data.sort_values('MÊS')
+    
+    # Create a bar chart using Plotly Express
+    fig = px.bar(grouped_data, x='MÊS', y=['PLANEJADO', 'EXECUTADO'],
+                 title='Previsão vs Realizado',
+                 labels={'value': 'Custo', 'MÊS': 'Mês'},
+                 barmode='group')
+    
+    # Update the layout to match your style preferences
+    fig.update_layout(
+        xaxis_title="Mês",
+        yaxis_title="Custo",
+        legend_title="Execução Orçamentária"
+    )
+    
+    # Show the chart in the Streamlit app
+    st.plotly_chart(fig)
+
+    
+
+
     
     
     
